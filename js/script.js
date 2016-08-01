@@ -135,7 +135,8 @@ function getRandomColor() {
     var randomColor = colors[Math.floor(Math.random() * colors.length)];
   } while (lastColor === randomColor);
 
-  //Once the new color is selected, update the new color and return
+  //Once the new color is selected, update the new color
   lastColor = randomColor;
+
   return randomColor;
 }
