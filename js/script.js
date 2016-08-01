@@ -2,66 +2,6 @@
   @Author: Marc Maycas
 */
 
-// Pops a random quote from the quotes array, which is returned. Moreover, this popped quote is
-// stored in the shownQuotes array, so it's not selected if it has already been shown.
-function getRandomQuote() {
-  // Reset the quotes array and the shownQuotes array in case all the quotes in the quotes array
-  // has been shown
-  if (quotes.length === 0) {
-    quotes = shownQuotes;
-    shownQuotes = [];
-  }
-
-  // Select a random quote and pushing it into the shownQuotes array
-  var randNum = Math.floor(Math.random() * quotes.length);
-  var selectedQuote = quotes.splice(randNum, 1)[0];
-  shownQuotes.push(selectedQuote);
-
-  return selectedQuote;
-}
-
-// Function that it's called as soon as the 'Show another quote button' is pushed.
-// It prints a new quote and changes the color of the body's background randomly.
-function printQuote() {
-  var quoteToShow = getRandomQuote();
-  var randomColor = getRandomColor();
-
-  // Insert a quote with the mandatory fields, quote and source
-  var html = '<p class="quote">' + quoteToShow.quote + '</p> <p class="source">' + quoteToShow.source;
-
-  // Insert a citation in case it exists (!undefined)
-  if (quoteToShow.citation) {
-    html += '<span class="citation">' + quoteToShow.citation + '</span>';
-  }
-  // Insert a year in case it exists (!undefined)
-  if (quoteToShow.year) {
-    html += '<span class="year">' + quoteToShow.year + '</span>';
-  }
-
-  html += '</p>';
-
-  // Set the different tags, if there are any (!undefined), using a loop to go over them and inserting them as list items
-  if (quoteToShow.tags) {
-    html += '<ul class="tags">';
-    for (var i = 0; i < quoteToShow.tags.length; i++) {
-      html += '<li>' + quoteToShow.tags[i] + '</li>';
-    }
-    html += '</ul>';
-  }
-
-  // Update the whole quote in the quote box
-  document.getElementById('quote-box').innerHTML = html;
-
-  // Update the body's color randomly
-  document.body.style.background = randomColor;
-}
-
-// Gets a new random color in order to change the background
-function getRandomColor() {
-  var colors = ["red", "green", "blue", "magenta", "tomato", "black", "orange"];
-  return colors[Math.floor(Math.random() * colors.length)];
-}
-
 // Global scope array of objects to hold the quotes to show
 var quotes = [{
   quote: "To avoid criticism do nothing, say nothing, be nothing.",
@@ -107,7 +47,6 @@ var quotes = [{
   tags: ["inspirational", "music"]
 }];
 
-
 // Global array storing all the quotes already shown in order to control when one quote has already
 // been shown. The strategy to follow-up will be popping the already printed quotes from the quotes
 // array of objects and reset it to shown quotes as soon as it is empty.
@@ -120,9 +59,83 @@ var shownQuotes = [{
   tags: ["inspirational"]
 }];
 
+// Variable to store the last selected color so this doesn't get repeated
+var lastColor = "#36b55c"; // This is the first color that the page starts with
+
 // Event listener to respond to "Show another quote" button clicks
 // When user clicks anywhere on the button, the "printQuote" function is called
 document.getElementById('loadQuote').addEventListener("click", printQuote, false);
 
 // Change the quote every 30 seconds
 window.setInterval(printQuote, 30000);
+
+// Pops a random quote from the quotes array, which is returned. Moreover, this popped quote is
+// stored in the shownQuotes array, so it's not selected if it has already been shown.
+function getRandomQuote() {
+  // Reset the quotes array and the shownQuotes array in case all the quotes in the quotes array
+  // has been shown
+  if (quotes.length === 0) {
+    quotes = shownQuotes;
+    shownQuotes = [];
+  }
+
+  // Select a random quote and push it into the shownQuotes array
+  var randNum = Math.floor(Math.random() * quotes.length);
+  var selectedQuote = quotes.splice(randNum, 1)[0];
+  shownQuotes.push(selectedQuote);
+
+  return selectedQuote;
+}
+
+// Function that it's called as soon as the 'Show another quote button' is pushed.
+// It prints a new quote and changes the color of the body's background randomly.
+function printQuote() {
+  var quoteToShow = getRandomQuote();
+  var randomColor = getRandomColor();
+
+  // Insert a quote with the mandatory fields, quote and source
+  var html = '<p class="quote">' + quoteToShow.quote + '</p> <p class="source">' + quoteToShow.source;
+
+  // Insert a citation in case it exists (!undefined)
+  if (quoteToShow.citation) {
+    html += '<span class="citation">' + quoteToShow.citation + '</span>';
+  }
+  // Insert a year in case it exists (!undefined)
+  if (quoteToShow.year) {
+    html += '<span class="year">' + quoteToShow.year + '</span>';
+  }
+  html += '</p>';
+
+  // Set the different tags, if there are any (!undefined), using a loop to go over them and inserting them as list items
+  if (quoteToShow.tags) {
+    html += '<ul class="tags">';
+    for (var i = 0; i < quoteToShow.tags.length; i++) {
+      html += '<li>' + quoteToShow.tags[i] + '</li>';
+    }
+    html += '</ul>';
+  }
+
+  // Update the whole quote in the quote box
+  document.getElementById('quote-box').innerHTML = html;
+
+  // Update the body and the button's background color randomly
+  document.body.style.background = randomColor;
+  document.getElementById("loadQuote").style.background = randomColor;
+}
+
+// Gets a new random color in order to change the background
+// It also has a mechanism to avoid selecting the same color twice
+function getRandomColor() {
+  var colors = ["#36b55c", "#ff0000", "#0000ff", " #ff00ff", "#ff6347",
+    "#000000", " #ffa500", "#da70d6", " #6a5acd", "#a9a9a9", "#ffe4c4"
+  ];
+
+  // Keep selecting a random color if the new one is the same as the last one
+  do {
+    var randomColor = colors[Math.floor(Math.random() * colors.length)];
+  } while (lastColor === randomColor);
+
+  //Once the new color is selected, update the new color and return
+  lastColor = randomColor;
+  return randomColor;
+}
