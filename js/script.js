@@ -126,6 +126,7 @@ function printQuote() {
 // Gets a new random color in order to change the background
 // It also has a mechanism to avoid selecting the same color twice
 function getRandomColor() {
+    var randomColor;
     var colors = [
         "#36b55c",
         "#ff0000",
@@ -141,7 +142,6 @@ function getRandomColor() {
     ];
 
     // Keep selecting a random color if the new one is the same as the last one
-    var randomColor;
     do {
         randomColor = colors[Math.floor(Math.random() * colors.length)];
     } while (lastColor === randomColor);
