@@ -127,24 +127,14 @@ function printQuote() {
 // It also has a mechanism to avoid selecting the same color twice
 function getRandomColor() {
     var randomColor;
-    var colors = [
-        "#36b55c",
-        "#ff0000",
-        "#0000ff",
-        "#ff00ff",
-        "#ff6347",
-        "#000000",
-        "#ffa500",
-        "#da70d6",
-        "#6a5acd",
-        "#a9a9a9",
-        "#ffe4c4"
-    ];
 
     // Keep selecting a random color if the new one is the same as the last one
     do {
-        randomColor = colors[Math.floor(Math.random() * colors.length)];
-    } while (lastColor === randomColor);
+        randomColor = "rgb(";
+        randomColor += Math.floor(Math.random() * 255) + ",  ";
+        randomColor += Math.floor(Math.random() * 255) + ",  ";
+        randomColor += Math.floor(Math.random() * 255) + ")";
+    } while (lastColor === randomColor || randomColor === "rgb(255, 255, 255)");
 
     //Once the new color is selected, update the new color
     lastColor = randomColor;
