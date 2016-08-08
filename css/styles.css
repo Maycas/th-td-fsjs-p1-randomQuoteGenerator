@@ -22,7 +22,8 @@ body {
     margin: 0;
 }
 
-.quote:before, .quote:after {
+.quote:before,
+.quote:after {
     font-size: 6rem;
     line-height: 2.5rem;
     position: absolute;
@@ -111,15 +112,13 @@ li {
     .quote {
         font-size: 2.5rem;
     }
-
-    .quote:before, .quote:after {
+    .quote:before,
+    .quote:after {
         font-size: 3rem;
     }
-
     .source {
         font-size: 1rem;
     }
-
     #loadQuote {
         bottom: 200px;
     }

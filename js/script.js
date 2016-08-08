@@ -62,12 +62,12 @@ var shownQuotes = [{
 // Variable to store the last selected color so this doesn't get repeated
 var lastColor = "#36b55c"; // This is the first color that the page starts with
 
+// Change the quote every 30 seconds
+var timer = setInterval(printQuote, 30000);
+
 // Event listener to respond to "Show another quote" button clicks
 // When user clicks anywhere on the button, the "printQuote" function is called
 document.getElementById('loadQuote').addEventListener("click", printQuote, false);
-
-// Change the quote every 30 seconds
-window.setInterval(printQuote, 30000);
 
 // Pops a random quote from the quotes array, which is returned. Moreover, this popped quote is
 // stored in the shownQuotes array, so it's not selected if it has already been shown.
@@ -121,6 +121,9 @@ function printQuote() {
     // Update the body and the button's background color randomly
     document.body.style.background = randomColor;
     document.getElementById("loadQuote").style.background = randomColor;
+
+    // Reset the timer when the button is pressed
+    resetTimer(30000);
 }
 
 // Gets a new random color in order to change the background
@@ -140,4 +143,10 @@ function getRandomColor() {
     lastColor = randomColor;
 
     return randomColor;
+}
+
+// Resets the timer to 0 and restarts the count specified at timeInterval
+function resetTimer(timeInterval) {
+    clearInterval(timer);
+    timer = setInterval(printQuote, timeInterval);
 }
